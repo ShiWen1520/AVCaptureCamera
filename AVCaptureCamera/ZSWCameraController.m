@@ -10,6 +10,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ZSWCameraTool.h"
 #import "ZSWPhotoController.h"
+#import "ZSWMotionManager.h"
+#import <CoreMotion/CoreMotion.h>
 
 @interface ZSWCameraController ()<AVCapturePhotoCaptureDelegate,ZSWCameraToolDelegate>
 
@@ -40,11 +42,25 @@
 /* 聚焦框 */
 @property (nonatomic, strong) UIView *focusView;
 
+/* 获取屏幕方向 */
+@property (nonatomic, assign) UIDeviceOrientation orientation;
+/* 陀螺仪管理 */
+@property (nonatomic, strong) ZSWMotionManager *motionManager;
+
 
 @end
 
 
 @implementation ZSWCameraController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    if(_session && !_session.running) {
+        [_session startRunning];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,6 +68,7 @@
     [self setupCamera];
     [self setupPinchGesture];
 
+//    [self startMotionManager];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,8 +122,9 @@
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 1000000  //iOS10.0以后的方法
 #pragma mark - AVCapturePhotoCaptureDelegate 拍摄后的代理方法，得到拍摄的图片
+//iOS11用到的代理方法
 - (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(NSError *)error  API_AVAILABLE(ios(11.0)){
-    
+    //停止取景
     [self.session stopRunning];
 
     NSData *imageData = nil;
@@ -117,16 +135,28 @@
     }
     UIImage *image = [UIImage imageWithData:imageData];
     self.cameraTool.image = image;
+    
+    //开启陀螺仪监测设备方向，motionManager必须设置为全局强引用属性，否则无法开启陀螺仪监测；
+    [self.motionManager startMotionManager:^(NSInteger orientation) {
+        self.orientation = orientation;
+        NSLog(@"设备方向：%ld",orientation);
+    }];
 }
 
+//iOS10用到的代理方法
 - (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhotoSampleBuffer:(nullable CMSampleBufferRef)photoSampleBuffer previewPhotoSampleBuffer:(nullable CMSampleBufferRef)previewPhotoSampleBuffer resolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings bracketSettings:(nullable AVCaptureBracketedStillImageSettings *)bracketSettings error:(nullable NSError *)error {
-    
+    //停止取景
     [self.session stopRunning];
     
     NSData *imageData = [AVCapturePhotoOutput JPEGPhotoDataRepresentationForJPEGSampleBuffer:photoSampleBuffer previewPhotoSampleBuffer:previewPhotoSampleBuffer];
     UIImage *image = [UIImage imageWithData:imageData];
     self.cameraTool.image = image;
     
+    //开启陀螺仪监测设备方向，motionManager必须设置为全局强引用属性，否则无法开启陀螺仪监测；
+    [self.motionManager startMotionManager:^(NSInteger orientation) {
+        self.orientation = orientation;
+        NSLog(@"设备方向：%ld",orientation);
+    }];
 }
 #endif
 
@@ -173,6 +203,13 @@
         NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
         UIImage *image = [UIImage imageWithData:imageData];
         self.cameraTool.image = image;
+        
+        //开启陀螺仪监测设备方向，motionManager必须设置为全局强引用属性，否则无法开启陀螺仪监测；
+        [self.motionManager startMotionManager:^(NSInteger orientation) {
+            self.orientation = orientation;
+            NSLog(@"设备方向：%ld",orientation);
+        }];
+        
     }];
     
 #endif
@@ -231,10 +268,14 @@
 
 - (void)completionShootWithPhoto:(UIImage *)photo {
     NSLog(@"完成");
+    //保存到手机本地相册
     UIImageWriteToSavedPhotosAlbum(photo, nil, nil, nil);
+    
     ZSWPhotoController *vc = [ZSWPhotoController new];
     vc.photo = photo;
-    [self presentViewController:vc animated:YES completion:nil];
+    vc.orientation = self.orientation;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - method
@@ -413,6 +454,13 @@
         _focusView.hidden = YES;
     }
     return _focusView;
+}
+
+- (ZSWMotionManager *)motionManager {
+    if(!_motionManager) {
+        _motionManager = [[ZSWMotionManager alloc] init];
+    }
+    return _motionManager;
 }
 
 

@@ -30,7 +30,8 @@
 
 - (void)presentCamera {
     ZSWCameraController *vc = [ZSWCameraController new];
-    [self presentViewController:vc animated:YES completion:nil];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 

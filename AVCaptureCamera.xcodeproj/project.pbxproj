@@ -16,6 +16,8 @@
 		1813051921928AF0007B55BB /* ZSWCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813051821928AF0007B55BB /* ZSWCameraController.m */; };
 		1813051C2192C950007B55BB /* ZSWCameraTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813051B2192C950007B55BB /* ZSWCameraTool.m */; };
 		1813051F2192D282007B55BB /* ZSWPhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813051E2192D282007B55BB /* ZSWPhotoController.m */; };
+		181305222193D6C2007B55BB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 181305212193D6C2007B55BB /* CoreMotion.framework */; };
+		181305252193D72E007B55BB /* ZSWMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 181305242193D72E007B55BB /* ZSWMotionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,9 @@
 		1813051B2192C950007B55BB /* ZSWCameraTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZSWCameraTool.m; sourceTree = "<group>"; };
 		1813051D2192D282007B55BB /* ZSWPhotoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZSWPhotoController.h; sourceTree = "<group>"; };
 		1813051E2192D282007B55BB /* ZSWPhotoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZSWPhotoController.m; sourceTree = "<group>"; };
+		181305212193D6C2007B55BB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		181305232193D72E007B55BB /* ZSWMotionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZSWMotionManager.h; sourceTree = "<group>"; };
+		181305242193D72E007B55BB /* ZSWMotionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZSWMotionManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				181305222193D6C2007B55BB /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +59,7 @@
 			children = (
 				1813050021928A03007B55BB /* AVCaptureCamera */,
 				181304FF21928A03007B55BB /* Products */,
+				181305202193D6C2007B55BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,6 +84,8 @@
 				1813051E2192D282007B55BB /* ZSWPhotoController.m */,
 				1813051A2192C950007B55BB /* ZSWCameraTool.h */,
 				1813051B2192C950007B55BB /* ZSWCameraTool.m */,
+				181305232193D72E007B55BB /* ZSWMotionManager.h */,
+				181305242193D72E007B55BB /* ZSWMotionManager.m */,
 				1813050721928A03007B55BB /* Main.storyboard */,
 				1813050A21928A05007B55BB /* Assets.xcassets */,
 				1813050C21928A05007B55BB /* LaunchScreen.storyboard */,
@@ -84,6 +93,14 @@
 				1813051021928A05007B55BB /* main.m */,
 			);
 			path = AVCaptureCamera;
+			sourceTree = "<group>";
+		};
+		181305202193D6C2007B55BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				181305212193D6C2007B55BB /* CoreMotion.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1813050621928A03007B55BB /* ViewController.m in Sources */,
+				181305252193D72E007B55BB /* ZSWMotionManager.m in Sources */,
 				1813051F2192D282007B55BB /* ZSWPhotoController.m in Sources */,
 				1813051921928AF0007B55BB /* ZSWCameraController.m in Sources */,
 				1813051C2192C950007B55BB /* ZSWCameraTool.m in Sources */,

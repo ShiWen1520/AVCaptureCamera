@@ -36,18 +36,15 @@
 
 - (void)setupBtn {
     //拍摄按钮
-    self.startBtn.frame = CGRectMake((self.frame.size.width - 80) / 2, self.frame.size.height - 120, 80, 80);
-    self.startBtn.backgroundColor = [UIColor whiteColor];
+    self.startBtn.frame = CGRectMake((self.frame.size.width - 80) / 2, self.frame.size.height - 100, 80, 80);
     [self addSubview:self.startBtn];
     
     //闪光灯按钮
     self.flashBtn.frame = CGRectMake(self.frame.size.width - 95, (self.frame.size.height - 80) / 2 - 90, 80, 80);
-    self.flashBtn.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.flashBtn];
     
     //切换镜头按钮
     self.switchBtn.frame = CGRectMake(self.frame.size.width - 95, (self.frame.size.height - 80) / 2, 80, 80);
-    self.switchBtn.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.switchBtn];
 }
 
@@ -148,8 +145,8 @@
 - (UIButton *)switchBtn {
     if(!_switchBtn) {
         _switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_switchBtn setTitle:@"后置" forState:UIControlStateNormal];
-        [_switchBtn setTitle:@"前置" forState:UIControlStateSelected];
+        [_switchBtn setTitle:@"前置" forState:UIControlStateNormal];
+        [_switchBtn setTitle:@"后置" forState:UIControlStateSelected];
         [_switchBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [_switchBtn addTarget:self action:@selector(switchPosition:) forControlEvents:UIControlEventTouchUpInside];
     }

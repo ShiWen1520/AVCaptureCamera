@@ -12,5 +12,7 @@
 
 /* photo */
 @property (nonatomic, strong) UIImage *photo;
+/* 设备方向 */
+@property (nonatomic, assign) UIDeviceOrientation orientation;
 
 @end
